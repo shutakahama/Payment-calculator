@@ -4,6 +4,7 @@ import Card from "./components/Card";
 import {CardItem} from "./types";
 import {Button, Grid} from "@material-ui/core";
 import utilStyles from "./style/utils.module.css"
+import styled from 'styled-components';
 
 const App = () => {
     const initialItem: CardItem = {name: '商品', value: 0, person: [true, true], tax: 8}
@@ -53,11 +54,12 @@ const App = () => {
     }
 
     return (
-        <div className={utilStyles.container}>
-            <section className={utilStyles.headingLg} >
+        // <div className={utilStyles.container}>
+        <Wrapper>
+            <Title>
                 レシート計算くん
-            </section>
-            <div>
+            </Title>
+            <Row>
                 {cardItems.map((e, i) => {
                     return (
                         <Card
@@ -68,21 +70,39 @@ const App = () => {
                         />
                     );
                 })}
-            </div>
-            <Button id="submit" variant="contained" color="primary" onClick={() => createNewCard()}>
-                +
-            </Button>
-            <br/>
-            <br/>
-            <Button id="submit" variant="contained" color="primary" onClick={() => alert("commig soon")}>
-                カメラから読み込み
-            </Button>
-            <div>
+            </Row>
+            <Row>
+                <Button id="submit" variant="contained" color="primary" onClick={() => createNewCard()}>
+                    +
+                </Button>
+                <br/>
+                <br/>
+                <Button id="submit" variant="contained" color="primary" onClick={() => alert("commig soon")}>
+                    カメラから読み込み
+                </Button>
+            </Row>
+            <Row>
                 <p>{userName[0]}: {Math.round(paymentItems[0])} 円</p>
                 <p>{userName[1]}: {Math.round(paymentItems[1])} 円</p>
-            </div>
-        </div>
+            </Row>
+        </Wrapper>
     );
 }
 
 export default App;
+
+const Title = styled.h1`
+  font-size: 1.5em;
+  text-align: center;
+  color: palevioletred;
+`;
+
+const Wrapper = styled.div`
+  margin: 4rem 0;
+`;
+
+const Row = styled.div`
+  text-align: center;
+  margin: 1.2rem 0;
+`;
+

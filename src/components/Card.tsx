@@ -3,15 +3,16 @@ import React from 'react';
 import {CardItem} from "../types";
 import {
     Button,
-    Checkbox,
+    Checkbox, createStyles,
     FormControl,
     FormControlLabel, FormGroup,
-    FormLabel, Grid,
+    FormLabel, Grid, makeStyles, Paper,
     Radio,
     RadioGroup,
-    TextField
+    TextField, Theme
 } from "@material-ui/core";
-import utilStyles from "../style/utils.module.css"
+// import utilStyles from "../style/utils.module.css"
+import styled from 'styled-components';
 
 interface CardProps {
     idx: number;
@@ -23,6 +24,7 @@ interface CardProps {
 const Card: React.FC<CardProps> = (props) => {
     const taxItems = {"税込":0, "8%": 8, "10%": 10}
     const userName = ["しゅうすけ", "ゆかり"]
+    const classes = useStyles();
 
     const handlePerson = (e: React.ChangeEvent<HTMLInputElement>, i: number) => {
         let tmp = props.item.person
@@ -49,59 +51,94 @@ const Card: React.FC<CardProps> = (props) => {
 
     return (
         <div>
-            <Grid container direction="row" spacing={0}>
-                <Grid item xs={4}>
-                    <form className="hoge" noValidate autoComplete="off">
-                        <TextField className={utilStyles.textInput} required id="name_input" label="品目"
-                                   value={props.item.name} onChange={handleName}/>
-                        <TextField className={utilStyles.textInput} required id="value_input" label="値段"
-                                   value={props.item.value} onChange={handleValue}/>
-                    </form>
+            <Paper className={classes.paper}>
+                <Grid container direction="row" spacing={0} alignItems="center" justify="center">
+                    <Grid item xs={4}>
+                        <form className="hoge" noValidate autoComplete="off">
+                            {/*<TextField className={utilStyles.textInput} required id="name_input" label="品目"*/}
+                            {/*           value={props.item.name} onChange={handleName}/>*/}
+                            <StyledTextField id="value_input" label={'商品' + props.idx}
+                                       value={props.item.value} onChange={handleValue}/>
+                        </form>
+                    </Grid>
+                    <Grid item xs={7}>
+                        <FormControl component="fieldset">
+                            <StyledRadioGroup row aria-label="tax" name="tax" defaultValue={props.item.tax} onChange={handleTax}>
+                                 {Object.entries(taxItems).map(([k, v]) => {
+                                 // {["0", "8", "10"].map(k => {
+                                    return (
+                                        <FormControlLabel
+                                            value={v}
+                                            control={<Radio color="primary"/>}
+                                            label={k}
+                                            labelPlacement="top"
+                                            checked={props.item.tax === v}
+                                            style={{marginLeft: '5px', marginRight: '5px'}}
+                                        />
+                                    );
+                                })}
+                            </StyledRadioGroup>
+                        </FormControl>
+                    {/*</Grid>*/}
+                    {/*<Grid item xs={3}>*/}
+                        <FormControl>
+                            <FormGroup row>
+                                {userName.map((v, i) => {
+                                    return (
+                                        <StyledFormControlLabel
+                                            value={v}
+                                            control={<Checkbox checked={props.item.person[i]} onChange={(e) => handlePerson(e, i)}/>}
+                                            label={v}
+                                            labelPlacement="top"
+                                            style={{marginLeft: '5px', marginRight: '5px'}}
+                                        />
+                                    );
+                                })}
+                            </FormGroup>
+                        </FormControl>
+                    </Grid>
+                    <Grid item xs={1} alignItems="center" justify="center">
+                        <Button id="submit" variant="contained" color='primary' style={{maxWidth: '30px', maxHeight: '30px', minWidth: '30px', minHeight: '30px'}} onClick={(e) => handleDelete(e)}>
+                            ×
+                        </Button>
+                    </Grid>
                 </Grid>
-                <Grid item xs={3}>
-                    <FormControl component="fieldset">
-                        <RadioGroup row aria-label="tax" name="tax" defaultValue={props.item.tax} onChange={handleTax}>
-                             {Object.entries(taxItems).map(([k, v]) => {
-                             // {["0", "8", "10"].map(k => {
-                                return (
-                                    <FormControlLabel
-                                        value={v}
-                                        control={<Radio color="primary"/>}
-                                        label={k}
-                                        labelPlacement="top"
-                                        checked={props.item.tax === v}
-                                        style={{marginLeft: '5px', marginRight: '5px'}}
-                                    />
-                                );
-                            })}
-                        </RadioGroup>
-                    </FormControl>
-                </Grid>
-                <Grid item xs={3}>
-                    <FormControl>
-                        <FormGroup row>
-                            {userName.map((v, i) => {
-                                return (
-                                    <FormControlLabel
-                                        value={v}
-                                        control={<Checkbox checked={props.item.person[i]} onChange={(e) => handlePerson(e, i)}/>}
-                                        label={v}
-                                        labelPlacement="top"
-                                        style={{marginLeft: '5px', marginRight: '5px'}}
-                                    />
-                                );
-                            })}
-                        </FormGroup>
-                    </FormControl>
-                </Grid>
-                <Grid item xs={2}>
-                    <Button id="submit" variant="contained" color="primary" onClick={(e) => handleDelete(e)}>
-                        削除
-                    </Button>
-                </Grid>
-            </Grid>
+            </Paper>
         </div>
     );
 }
 
 export default Card;
+
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        root: {
+            flexGrow: 1,
+        },
+        paper: {
+            // height: 140,
+            // width: 100,
+            margin: 10,
+            padding: 10,
+            background: 'whitesmoke',
+        },
+        control: {
+            padding: theme.spacing(2),
+        },
+    }),
+);
+
+const StyledTextField = styled(TextField)`
+    width: 150px;
+`
+
+const StyledRadioGroup = styled(RadioGroup)`
+    font-size: 1rem;
+`
+
+const StyledFormControlLabel = styled(FormControlLabel)`
+    margin: 0rem 0;
+    label: {
+        font-size: 1rem;
+    }
+`
