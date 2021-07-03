@@ -7,10 +7,10 @@ import {Button} from "@material-ui/core";
 const WebcamCapture = ()=> {
     const history = useHistory();
     const webcamRef = useRef<Webcam>(null);
-    const [facingMode, setFacingMode] = useState<string>("user");
+    const [facingMode, setFacingMode] = useState<string>("environment");
     const videoConstraints= {
-        width: 1280,
-        height: 720,
+        width: 300,
+        height: 300,
         facingMode: facingMode
     };
 
@@ -36,8 +36,8 @@ const WebcamCapture = ()=> {
             <Row>
                 <Webcam
                     audio={false}
-                    height={800}
-                    width={800}
+                    height={300}
+                    width={300}
                     ref={webcamRef}
                     screenshotFormat="image/jpeg"
                     videoConstraints={videoConstraints}

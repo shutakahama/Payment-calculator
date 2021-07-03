@@ -41,7 +41,9 @@ const Card: React.FC<CardProps> = (props) => {
     }
 
     const handleValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-        props.submitAction(props.idx, "value", Number(e.target.value))
+        if (!isNaN(Number(e.target.value))) {
+            props.submitAction(props.idx, "value", Number(e.target.value))
+        }
     }
 
     const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {

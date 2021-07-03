@@ -18,10 +18,10 @@ const App = () => {
 
     const changeCard = (idx: number, field: string, newValue: any) => {
         let tmp = cardItems;
-        if (field === "name") tmp[idx].name = newValue;
-        if (field === "value") tmp[idx].value = newValue;
-        if (field === "person") tmp[idx].person = newValue;
-        if (field === "tax") tmp[idx].tax = newValue;
+        if ((field === "name") && (typeof newValue === "string")) tmp[idx].name = newValue;
+        if ((field === "value") && (typeof newValue === "number")) tmp[idx].value = newValue;
+        if ((field === "person") && (typeof newValue === "object")) tmp[idx].person = newValue;
+        if ((field === "tax") && (typeof newValue === "number")) tmp[idx].tax = newValue;
         setCardItem(tmp);
         calculatePayment()
     }
@@ -34,6 +34,13 @@ const App = () => {
         //     tmp.push(initialItem)
         // }
         setCardItem(tmp);
+        calculatePayment()
+    }
+
+    const clearCard = () => {
+        // const tmp: CardItem[] = [initialItem]
+        // setCardItem(tmp);
+        setCardItem([]);
         calculatePayment()
     }
 
@@ -82,6 +89,11 @@ const App = () => {
             <Row>
                 <Button id="submit" variant="contained" color="primary" onClick={() => createNewCard()}>
                     +
+                </Button>
+                <br/>
+                <br/>
+                <Button id="clear" variant="contained" color="primary" onClick={() => clearCard()}>
+                    全てクリアする
                 </Button>
                 <br/>
                 <br/>
