@@ -1,18 +1,19 @@
-import React, {useRef} from 'react'
+import React, {useRef, useState} from 'react'
 import Webcam from 'react-webcam'
 import styled from "styled-components";
 import { Link, useHistory } from 'react-router-dom'
 import {Button} from "@material-ui/core";
 
-const videoConstraints= {
-    width: 1280,
-    height: 720,
-    facingMode: "user"
-};
-
 const WebcamCapture = ()=> {
     const history = useHistory();
     const webcamRef = useRef<Webcam>(null);
+    const [facingMode, setFacingMode] = useState<string>("user");
+    const videoConstraints= {
+        width: 1280,
+        height: 720,
+        facingMode: facingMode
+    };
+
     const Capture = React.useCallback(
         () => {
             const imageSrc = webcamRef.current?.getScreenshot();
@@ -21,6 +22,12 @@ const WebcamCapture = ()=> {
         },
         [webcamRef]
     );
+
+    const SwitchCamera = () => {
+        if (facingMode === "user") setFacingMode("environment")
+        else setFacingMode("user")
+    }
+
     return (
         <Wrapper>
             <Title>
@@ -29,12 +36,17 @@ const WebcamCapture = ()=> {
             <Row>
                 <Webcam
                     audio={false}
-                    height={250}
-                    width={400}
+                    height={800}
+                    width={800}
                     ref={webcamRef}
                     screenshotFormat="image/jpeg"
                     videoConstraints={videoConstraints}
                 />
+            </Row>
+            <Row>
+                <Button id="switch" variant="contained" color="primary" onClick={() => SwitchCamera()}>
+                    カメラ切り替え
+                </Button>
             </Row>
             <Row>
                 <Button id="submit" variant="contained" color="primary" onClick={() => Capture()}>
