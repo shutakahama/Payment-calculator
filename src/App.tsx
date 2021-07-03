@@ -5,12 +5,16 @@ import {CardItem} from "./types";
 import {Button, Grid} from "@material-ui/core";
 import utilStyles from "./style/utils.module.css"
 import styled from 'styled-components';
+import WebcamCapture from "./components/camera";
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom'
 
 const App = () => {
     const initialItem: CardItem = {name: '商品', value: 0, person: [true, true], tax: 8}
     const [cardItems, setCardItem] = useState<CardItem[]>([]);
     const [paymentItems, setPaymentItem] = useState<number[]>([0, 0]);
     const userName: string[] = ["しゅうすけ", "ゆかり"]
+    const history = useHistory();
 
     const changeCard = (idx: number, field: string, newValue: any) => {
         let tmp = cardItems;
@@ -53,6 +57,10 @@ const App = () => {
         setPaymentItem(payment)
     }
 
+    const RaiseCamera = () => {
+        history.push("/WebcamCapture");
+    }
+
     return (
         // <div className={utilStyles.container}>
         <Wrapper>
@@ -77,7 +85,7 @@ const App = () => {
                 </Button>
                 <br/>
                 <br/>
-                <Button id="submit" variant="contained" color="primary" onClick={() => alert("commig soon")}>
+                <Button id="submit" variant="contained" color="primary" onClick={() => RaiseCamera()}>
                     カメラから読み込み
                 </Button>
             </Row>
@@ -85,6 +93,9 @@ const App = () => {
                 <p>{userName[0]}: {Math.round(paymentItems[0])} 円</p>
                 <p>{userName[1]}: {Math.round(paymentItems[1])} 円</p>
             </Row>
+            {/*<Row>*/}
+            {/*    <WebcamCapture/>*/}
+            {/*</Row>*/}
         </Wrapper>
     );
 }
@@ -92,7 +103,7 @@ const App = () => {
 export default App;
 
 const Title = styled.h1`
-  font-size: 1.5em;
+  font-size: 2em;
   text-align: center;
   color: palevioletred;
 `;

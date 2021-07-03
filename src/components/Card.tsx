@@ -53,7 +53,7 @@ const Card: React.FC<CardProps> = (props) => {
         <div>
             <Paper className={classes.paper}>
                 <Grid container direction="row" spacing={0} alignItems="center" justify="center">
-                    <Grid item xs={4}>
+                    <Grid item xs={3}>
                         <form className="hoge" noValidate autoComplete="off">
                             {/*<TextField className={utilStyles.textInput} required id="name_input" label="品目"*/}
                             {/*           value={props.item.name} onChange={handleName}/>*/}
@@ -61,7 +61,7 @@ const Card: React.FC<CardProps> = (props) => {
                                        value={props.item.value} onChange={handleValue}/>
                         </form>
                     </Grid>
-                    <Grid item xs={7}>
+                    <Grid item xs={8}>
                         <FormControl component="fieldset">
                             <StyledRadioGroup row aria-label="tax" name="tax" defaultValue={props.item.tax} onChange={handleTax}>
                                  {Object.entries(taxItems).map(([k, v]) => {
@@ -129,7 +129,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const StyledTextField = styled(TextField)`
-    width: 150px;
+    width: 100px;
 `
 
 const StyledRadioGroup = styled(RadioGroup)`
