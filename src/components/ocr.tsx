@@ -44,6 +44,7 @@ const OCR: React.FC = () => {
                 res.push(e.slice(1));
             }
         }
+        if (res.length === 0) res.push('何も読み取れませんでした')
         setResOcr(res);
     }
 

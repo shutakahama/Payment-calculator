@@ -10,7 +10,7 @@ const App = () => {
     const initialItem: CardItem = {name: '商品', value: 0, person: [true, true], tax: 8}
     const [cardItems, setCardItem] = useState<CardItem[]>([]);
     const [paymentItems, setPaymentItem] = useState<number[]>([0, 0]);
-    const userNames: string[] = ["Aさん", "Bさん"]
+    const userNames: string[] = ["しゅうすけ", "ゆかり"]
     const history = useHistory();
 
     useEffect(() => {
