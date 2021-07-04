@@ -47,11 +47,6 @@ const OCR: React.FC = () => {
         setResOcr(res);
     }
 
-
-    // const handleClick = async() => {
-    //     await tryOcr();
-    // }
-
     const addValues = () => {
         const appState = localStorage.getItem("cardItems")
         const tmp = typeof appState === "string" ? JSON.parse(appState) : []

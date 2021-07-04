@@ -49,7 +49,6 @@ const Card: React.FC<CardProps> = (props) => {
     const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
         props.deleteAction(props.idx)
     }
-    // alert([props.idx, props.item.value])
 
     return (
         <div>
@@ -57,8 +56,6 @@ const Card: React.FC<CardProps> = (props) => {
                 <Grid container direction="row" spacing={0} alignItems="center" justify="center">
                     <Grid item xs={3}>
                         <form className="hoge" noValidate autoComplete="off">
-                            {/*<TextField className={utilStyles.textInput} required id="name_input" label="品目"*/}
-                            {/*           value={props.item.name} onChange={handleName}/>*/}
                             <StyledTextField id="value_input" label={'商品' + props.idx}
                                        value={props.item.value} onChange={handleValue}/>
                         </form>
@@ -67,7 +64,6 @@ const Card: React.FC<CardProps> = (props) => {
                         <FormControl component="fieldset">
                             <StyledRadioGroup row aria-label="tax" name="tax" defaultValue={props.item.tax} onChange={handleTax}>
                                  {Object.entries(taxItems).map(([k, v]) => {
-                                 // {["0", "8", "10"].map(k => {
                                     return (
                                         <FormControlLabel
                                             value={v}
@@ -81,8 +77,6 @@ const Card: React.FC<CardProps> = (props) => {
                                 })}
                             </StyledRadioGroup>
                         </FormControl>
-                    {/*</Grid>*/}
-                    {/*<Grid item xs={3}>*/}
                         <FormControl>
                             <FormGroup row>
                                 {userName.map((v, i) => {

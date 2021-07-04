@@ -10,7 +10,7 @@ const App = () => {
     const initialItem: CardItem = {name: '商品', value: 0, person: [true, true], tax: 8}
     const [cardItems, setCardItem] = useState<CardItem[]>([]);
     const [paymentItems, setPaymentItem] = useState<number[]>([0, 0]);
-    const userNames: string[] = ["しゅうすけ", "ゆかり"]
+    const userNames: string[] = ["Aさん", "Bさん"]
     const history = useHistory();
 
     useEffect(() => {
@@ -32,18 +32,12 @@ const App = () => {
     const deleteCard = (idx: number) => {
         let tmp = cardItems;
         tmp.splice(idx, 1);
-
-        // if (tmp.length === 0) {
-        //     tmp.push(initialItem)
-        // }
         setCardItem(tmp);
         localStorage.setItem("cardItems", JSON.stringify(tmp));
         calculatePayment()
     }
 
     const clearCard = () => {
-        // const tmp: CardItem[] = [initialItem]
-        // setCardItem(tmp);
         setCardItem([]);
         localStorage.setItem("cardItems", JSON.stringify([]));
         calculatePayment()
@@ -74,7 +68,6 @@ const App = () => {
     }
 
     return (
-        // <div className={utilStyles.container}>
         <Wrapper>
             <Title>
                 レシート計算くん
