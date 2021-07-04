@@ -1,20 +1,22 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './App.css';
 import Card from "./components/Card";
 import {CardItem} from "./types";
 import {Button, Grid} from "@material-ui/core";
-import utilStyles from "./style/utils.module.css"
 import styled from 'styled-components';
-import WebcamCapture from "./components/camera";
-import { BrowserRouter as Router, Route } from 'react-router-dom';
-import { Link, useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 
 const App = () => {
     const initialItem: CardItem = {name: '商品', value: 0, person: [true, true], tax: 8}
     const [cardItems, setCardItem] = useState<CardItem[]>([]);
     const [paymentItems, setPaymentItem] = useState<number[]>([0, 0]);
-    const userName: string[] = ["しゅうすけ", "ゆかり"]
+    const userNames: string[] = ["しゅうすけ", "ゆかり"]
     const history = useHistory();
+
+    useEffect(() => {
+        const appState = localStorage.getItem("cardItems")
+        if (typeof appState === "string") setCardItem(JSON.parse(appState));
+    }, []);
 
     const changeCard = (idx: number, field: string, newValue: any) => {
         let tmp = cardItems;
@@ -23,6 +25,7 @@ const App = () => {
         if ((field === "person") && (typeof newValue === "object")) tmp[idx].person = newValue;
         if ((field === "tax") && (typeof newValue === "number")) tmp[idx].tax = newValue;
         setCardItem(tmp);
+        localStorage.setItem("cardItems", JSON.stringify(tmp));
         calculatePayment()
     }
 
@@ -34,6 +37,7 @@ const App = () => {
         //     tmp.push(initialItem)
         // }
         setCardItem(tmp);
+        localStorage.setItem("cardItems", JSON.stringify(tmp));
         calculatePayment()
     }
 
@@ -41,6 +45,7 @@ const App = () => {
         // const tmp: CardItem[] = [initialItem]
         // setCardItem(tmp);
         setCardItem([]);
+        localStorage.setItem("cardItems", JSON.stringify([]));
         calculatePayment()
     }
 
@@ -80,6 +85,7 @@ const App = () => {
                         <Card
                             idx={i}
                             item={e}
+                            userNames={userNames}
                             submitAction={(idx: number, field: string, newValue: any) => changeCard(idx, field, newValue)}
                             deleteAction={(idx: number) => deleteCard(idx)}
                         />
@@ -90,24 +96,21 @@ const App = () => {
                 <Button id="submit" variant="contained" color="primary" onClick={() => createNewCard()}>
                     +
                 </Button>
-                <br/>
-                <br/>
+            </Row>
+            <Row>
                 <Button id="clear" variant="contained" color="primary" onClick={() => clearCard()}>
                     全てクリアする
                 </Button>
-                <br/>
-                <br/>
+            </Row>
+            <Row>
                 <Button id="submit" variant="contained" color="primary" onClick={() => RaiseCamera()}>
                     カメラから読み込み
                 </Button>
             </Row>
             <Row>
-                <p>{userName[0]}: {Math.round(paymentItems[0])} 円</p>
-                <p>{userName[1]}: {Math.round(paymentItems[1])} 円</p>
+                <p>{userNames[0]}: {Math.round(paymentItems[0])} 円</p>
+                <p>{userNames[1]}: {Math.round(paymentItems[1])} 円</p>
             </Row>
-            {/*<Row>*/}
-            {/*    <WebcamCapture/>*/}
-            {/*</Row>*/}
         </Wrapper>
     );
 }

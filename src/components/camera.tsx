@@ -1,7 +1,7 @@
 import React, {useRef, useState} from 'react'
 import Webcam from 'react-webcam'
 import styled from "styled-components";
-import { Link, useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import {Button} from "@material-ui/core";
 
 const WebcamCapture = ()=> {
@@ -16,9 +16,10 @@ const WebcamCapture = ()=> {
 
     const Capture = React.useCallback(
         () => {
-            const imageSrc = webcamRef.current?.getScreenshot();
-            alert("レシートから追加しますか？")
-            history.push("/");
+            let imageSrc: string | null | undefined = webcamRef.current?.getScreenshot();
+            if (typeof imageSrc !== 'string') return
+            imageSrc = imageSrc.replace('data:image/jpeg;base64,', '')
+            history.push({pathname: "/ocr", state: {image: imageSrc}});
         },
         [webcamRef]
     );
@@ -26,6 +27,10 @@ const WebcamCapture = ()=> {
     const SwitchCamera = () => {
         if (facingMode === "user") setFacingMode("environment")
         else setFacingMode("user")
+    }
+
+    const returnHome = () => {
+        history.push("/");
     }
 
     return (
@@ -51,6 +56,11 @@ const WebcamCapture = ()=> {
             <Row>
                 <Button id="submit" variant="contained" color="primary" onClick={() => Capture()}>
                     撮影する
+                </Button>
+            </Row>
+            <Row>
+                <Button id="submit" variant="contained" color="primary" onClick={() => returnHome()}>
+                    戻る
                 </Button>
             </Row>
         </Wrapper>

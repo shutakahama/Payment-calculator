@@ -11,19 +11,19 @@ import {
     RadioGroup,
     TextField, Theme
 } from "@material-ui/core";
-// import utilStyles from "../style/utils.module.css"
 import styled from 'styled-components';
 
 interface CardProps {
     idx: number;
     item: CardItem;
+    userNames: string[];
     submitAction: (idx: number, field: string, newValue: any) => void;
     deleteAction: (idx: number) => void;
 }
 
 const Card: React.FC<CardProps> = (props) => {
-    const taxItems = {"税込":0, "8%": 8, "10%": 10}
-    const userName = ["しゅうすけ", "ゆかり"]
+    const taxItems = {"税込":0, "8%": 8, "10%": 10};
+    const userName = props.userNames;
     const classes = useStyles();
 
     const handlePerson = (e: React.ChangeEvent<HTMLInputElement>, i: number) => {
