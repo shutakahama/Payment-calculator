@@ -1,4 +1,3 @@
-// @ts-ignore
 import React from 'react';
 import {CardItem} from "../types";
 import {
@@ -6,7 +5,7 @@ import {
     Checkbox, createStyles,
     FormControl,
     FormControlLabel, FormGroup,
-    FormLabel, Grid, makeStyles, Paper,
+    Grid, makeStyles, Paper,
     Radio,
     RadioGroup,
     TextField, Theme

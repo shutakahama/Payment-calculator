@@ -9,8 +9,8 @@ const WebcamCapture = ()=> {
     const webcamRef = useRef<Webcam>(null);
     const [facingMode, setFacingMode] = useState<string>("environment");
     const videoConstraints= {
-        width: 300,
-        height: 300,
+        width: 600,
+        height: 600,
         facingMode: facingMode
     };
 

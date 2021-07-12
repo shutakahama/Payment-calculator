@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import './App.css';
 import Card from "./components/Card";
 import {CardItem} from "./types";
-import {Button, Grid} from "@material-ui/core";
+import {Button} from "@material-ui/core";
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom'
 

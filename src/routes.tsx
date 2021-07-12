@@ -5,6 +5,7 @@ import App from "./App";
 import WebcamCapture from "./components/camera";
 import Test from "./components/test";
 import OCR from "./components/ocr";
+// import OCRSpace from "./components/ocrspace";
 
 const routes = (
     <Switch>
@@ -12,6 +13,7 @@ const routes = (
         <Route exact path='/test' component={Test} />
         <Route exact path='/WebcamCapture' component={WebcamCapture} />
         <Route exact path='/ocr' component={OCR} />
+        {/*<Route exact path='/ocr' component={OCRSpace} />*/}
         <Redirect to="/" />
     </Switch>
 );

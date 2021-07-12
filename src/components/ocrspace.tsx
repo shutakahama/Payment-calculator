@@ -8,50 +8,53 @@ interface LocationState {
     image: string;
 }
 
-const OCR: React.FC = () => {
+const OCRSpace: React.FC = () => {
+    // const ocrSpace = require('ocr-space-api-wrapper')
+    const axios = require('axios')
     const location = useLocation<LocationState>()
     const history = useHistory();
-    // const [textOcr, setTextOcr] = useState<string>('');
+    const [textOcr, setTextOcr] = useState<string>('');
     const [resOCR, setResOcr] = useState<string[]>(['読み取り中...']);
-    const worker = createWorker();
-
 
     useEffect(() => {
         const tryOcr = async () => {
-            await worker.load();
-            await worker.loadLanguage('eng');
-            await worker.initialize('eng');
-            let imageBuffer = Buffer.from(location.state.image, "base64");
-            const {data: {text}} = await worker.recognize(imageBuffer);
-            // setTextOcr(text);
-            console.log(text)
-            await worker.terminate();
-            // translateOCR();
-        // }
-        // const translateOCR = () => {
-            const tmp = text.split(/\n|\s/);
+            const data = new FormData()
+            data.append('base64Image', location.state.image)
+            data.append('language', 'jpn')
+            const request = {
+                method: 'POST',
+                url: String('https://api.ocr.space/parse/image'),
+                headers: {apikey: String('c377eaec3788957')},
+                data,
+                maxContentLength: Infinity,
+                maxBodyLength: Infinity
+            }
+            const response = await axios(request)
+            console.log(response.data)
+            const resString = response.data.ParsedResults[0].ParsedText
+            setTextOcr(resString);
+            translateOCR();
+        }
+        const translateOCR = () => {
+            const tmp = textOcr.split(/\n|\s/);
             console.log(tmp)
             const res: string[] = []
             for (let e of tmp) {
-                e = e.replace(/[¥気\\,()]/g, '')
-                let nume: number = 0
                 if (!isNaN(Number(e))) {
-                    nume = Number(e)
+                    if (Number(e) < 10) continue
+                    if (Number(e) > 10000) continue
+                    res.push(e);
                 } else if (!isNaN(Number(e.slice(1)))) {
-                    nume = Number(e.slice(1))
-                } else if (!isNaN(Number(e.slice(0, e.length - 1)))) {
-                    nume = Number(e.slice(0, e.length - 1))
+                    if (Number(e.slice(1)) < 10) continue
+                    if (Number(e.slice(1)) > 10000) continue
+                    res.push(e.slice(1));
                 }
-                if (nume < 10) continue
-                if (nume > 10000) continue
-                res.push(String(nume));
             }
             if (res.length === 0) res.push('何も読み取れませんでした')
             setResOcr(res);
         }
-
         tryOcr();
-    }, [])
+    }, [axios, location.state.image, textOcr]);
 
 
     const addValues = () => {
@@ -94,7 +97,7 @@ const OCR: React.FC = () => {
     );
 }
 
-export default OCR;
+export default OCRSpace;
 
 const Title = styled.h1`
   font-size: 2em;
@@ -110,3 +113,24 @@ const Row = styled.div`
   text-align: center;
   margin: 1.2rem 0;
 `;
+
+
+// let imageBuffer = Buffer.from(location.state.image, "base64");
+// console.log(typeof location.state.image)
+// const res = await ocrSpace(location.state.image, { apiKey: 'c377eaec3788957' })
+// console.log(res)
+// const data = new FormData()
+// data.append('apikey', 'c377eaec3788957')
+// data.append('base64Image', location.state.image)
+// fetch('https://api.ocr.space/parse/image', {
+//     method: 'POST',
+//     // headers: {'Content-Type': 'application/form'},
+//     // body: JSON.stringify({
+//     //     apikey: 'c377eaec3788957',
+//     //     base64Image: location.state.image,
+//     // }),
+//     body: data
+// }).then(res => res.json())
+//     .then(data => {
+//         console.log(data)
+//     })
