@@ -24,7 +24,7 @@ const OCRSpace: React.FC = () => {
             const request = {
                 method: 'POST',
                 url: String('https://api.ocr.space/parse/image'),
-                headers: {apikey: String('c377eaec3788957')},
+                headers: {apikey: String('****')},
                 data,
                 maxContentLength: Infinity,
                 maxBodyLength: Infinity
@@ -54,7 +54,7 @@ const OCRSpace: React.FC = () => {
             setResOcr(res);
         }
         tryOcr();
-    }, [axios, location.state.image, textOcr]);
+    }, []);
 
 
     const addValues = () => {
