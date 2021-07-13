@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import './App.css';
 import Card from "./components/Card";
 import {CardItem} from "./types";
-import {Button} from "@material-ui/core";
+import {Button, Grid} from "@material-ui/core";
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom'
 
@@ -101,8 +101,20 @@ const App = () => {
                 </Button>
             </Row>
             <Row>
-                <p>{userNames[0]}: {Math.round(paymentItems[0])} 円</p>
-                <p>{userNames[1]}: {Math.round(paymentItems[1])} 円</p>
+                {[0,1].map((i) => {
+                    return (
+                        <Grid container direction="row" spacing={1} alignItems="center" justify="center">
+                            <Grid item xs={4}>
+                                <span>{userNames[i]}</span>
+                            </Grid>
+                            <Grid item xs={4}>
+                                <span style={{fontSize: '2rem', background: 'linear-gradient(transparent 70%, Gold 70%)'}}>{Math.round(paymentItems[i])} 円</span>
+                            </Grid>
+                        </Grid>
+                    );
+                })}
+                {/*<p>{userNames[0]}: {Math.round(paymentItems[0])} 円</p>*/}
+                {/*<p>{userNames[1]}: {Math.round(paymentItems[1])} 円</p>*/}
             </Row>
         </Wrapper>
     );
@@ -111,9 +123,9 @@ const App = () => {
 export default App;
 
 const Title = styled.h1`
-  font-size: 2em;
+  font-size: 2.5em;
   text-align: center;
-  color: palevioletred;
+  color: MidnightBlue;
 `;
 
 const Wrapper = styled.div`

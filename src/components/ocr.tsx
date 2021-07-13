@@ -99,7 +99,7 @@ export default OCR;
 const Title = styled.h1`
   font-size: 2em;
   text-align: center;
-  color: palevioletred;
+  color: MidnightBlue;
 `;
 
 const Wrapper = styled.div`

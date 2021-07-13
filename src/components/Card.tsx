@@ -10,7 +10,7 @@ import {
     RadioGroup,
     TextField, Theme
 } from "@material-ui/core";
-import styled from 'styled-components';
+// import styled from 'styled-components';
 
 interface CardProps {
     idx: number;
@@ -53,39 +53,41 @@ const Card: React.FC<CardProps> = (props) => {
         <div>
             <Paper className={classes.paper}>
                 <Grid container direction="row" spacing={0} alignItems="center" justify="center">
-                    <Grid item xs={3}>
+                    <Grid item xs={2}>
                         <form className="hoge" noValidate autoComplete="off">
-                            <StyledTextField id="value_input" label={'商品' + props.idx}
+                            <TextField className={classes.textfield} id="value_input" label={'商品' + props.idx}
                                        value={props.item.value} onChange={handleValue}/>
                         </form>
                     </Grid>
-                    <Grid item xs={8}>
+                    <Grid item xs={9}>
                         <FormControl component="fieldset">
-                            <StyledRadioGroup row aria-label="tax" name="tax" defaultValue={props.item.tax} onChange={handleTax}>
+                            <RadioGroup row aria-label="tax" name="tax" defaultValue={props.item.tax} onChange={handleTax}>
                                  {Object.entries(taxItems).map(([k, v]) => {
                                     return (
                                         <FormControlLabel
                                             value={v}
-                                            control={<Radio color="primary"/>}
-                                            label={k}
+                                            control={<Radio className={classes.formbox} color="primary"/>}
+                                            // label={k}
+                                            label={<span className={classes.formlabel}>{k}</span>}
                                             labelPlacement="top"
                                             checked={props.item.tax === v}
-                                            style={{marginLeft: '5px', marginRight: '5px'}}
+                                            style={{marginLeft: '-0.3rem', marginRight: '0rem'}}
                                         />
                                     );
                                 })}
-                            </StyledRadioGroup>
+                            </RadioGroup>
                         </FormControl>
                         <FormControl>
                             <FormGroup row>
                                 {userName.map((v, i) => {
                                     return (
-                                        <StyledFormControlLabel
+                                        <FormControlLabel
                                             value={v}
-                                            control={<Checkbox checked={props.item.person[i]} onChange={(e) => handlePerson(e, i)}/>}
-                                            label={v}
+                                            control={<Checkbox className={classes.formbox} checked={props.item.person[i]} onChange={(e) => handlePerson(e, i)}/>}
+                                            // label={v}
+                                            label={<span className={classes.formlabel}>{v}</span>}
                                             labelPlacement="top"
-                                            style={{marginLeft: '5px', marginRight: '5px'}}
+                                            style={{marginLeft: '-0rem', marginRight: '0rem'}}
                                         />
                                     );
                                 })}
@@ -120,20 +122,19 @@ const useStyles = makeStyles((theme: Theme) =>
         control: {
             padding: theme.spacing(2),
         },
+        textfield: {
+            width: '80px',
+            marginLeft: '0.5rem',
+        },
+        formlabel: {
+            fontSize: '0.5rem',
+        },
+        formbox: {
+            marginTop: '-0.5rem',
+        },
     }),
 );
 
-const StyledTextField = styled(TextField)`
-    width: 100px;
-`
-
-const StyledRadioGroup = styled(RadioGroup)`
-    font-size: 1rem;
-`
-
-const StyledFormControlLabel = styled(FormControlLabel)`
-    margin: 0rem 0;
-    label: {
-        font-size: 1rem;
-    }
-`
+// const StyledTextField = styled(TextField)`
+//     width: 80px;
+// `
