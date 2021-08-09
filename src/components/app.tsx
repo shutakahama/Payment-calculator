@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import './App.css';
-import Card from "./components/Card";
-import {CardItem} from "./types";
-import {Button, Grid} from "@material-ui/core";
+import Card from "./card";
+import NameWindow from "./name_window";
+import {CardItem} from "../types";
+import {Button, Grid, TextField, FormControl, InputLabel, MenuItem, Select} from "@material-ui/core";
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom'
 
@@ -10,12 +10,15 @@ const App = () => {
     const initialItem: CardItem = {name: '商品', value: 0, person: [true, true], tax: 8}
     const [cardItems, setCardItem] = useState<CardItem[]>([]);
     const [paymentItems, setPaymentItem] = useState<number[]>([0, 0]);
-    const userNames: string[] = ["Aさん", "Bさん"]
+    const [userNames, setUserNames] = useState<string[]>(["ユーザー1", "ユーザー2"]);
+    const [nameChangeFlag, setNameChangeFlag] = useState<boolean>(false);
     const history = useHistory();
 
     useEffect(() => {
-        const appState = localStorage.getItem("cardItems")
-        if (typeof appState === "string") setCardItem(JSON.parse(appState));
+        const cardState = localStorage.getItem("cardItems")
+        if (typeof cardState === "string") setCardItem(JSON.parse(cardState));
+        const userState = localStorage.getItem("userNames")
+        if (typeof userState === "string") setUserNames(JSON.parse(userState));
     }, []);
 
     const changeCard = (idx: number, field: string, newValue: any) => {
@@ -47,6 +50,11 @@ const App = () => {
         setCardItem([...cardItems, initialItem])
     }
 
+    const changeUserName = (userArray: string[]) => {
+        setUserNames(userArray);
+        localStorage.setItem("userNames", JSON.stringify(userArray));
+    }
+
     const calculatePayment = () => {
         let payment: number[] = [0, 0]
         for (let item of cardItems) {
@@ -72,6 +80,10 @@ const App = () => {
             <Title>
                 レシート計算くん
             </Title>
+            <NameWindow
+                userNames={userNames}
+                submitAction={changeUserName}
+            />
             <Row>
                 {cardItems.map((e, i) => {
                     return (
@@ -136,4 +148,3 @@ const Row = styled.div`
   text-align: center;
   margin: 1.2rem 0;
 `;
-
